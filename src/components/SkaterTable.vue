@@ -41,10 +41,8 @@ const filters: { value: Position; label: string }[] = [
   { value: 'G', label: 'G' },
 ]
 
-const hideDrafted = ref(false)
-
 const visibleRows = computed(() =>
-  hideDrafted.value
+  store.hideDrafted
     ? rows.value.filter((r) => !store.isDrafted(r.playerId))
     : rows.value
 )
@@ -121,9 +119,9 @@ function onMugError(e: Event) {
       <button
         type="button"
         class="hide-drafted"
-        :class="{ active: hideDrafted }"
-        :aria-pressed="hideDrafted"
-        @click="hideDrafted = !hideDrafted"
+        :class="{ active: store.hideDrafted }"
+        :aria-pressed="store.hideDrafted"
+        @click="store.toggleHideDrafted()"
       >
         Hide drafted
       </button>
@@ -135,7 +133,14 @@ function onMugError(e: Event) {
     </p>
 
     <template v-else>
-      <table :aria-busy="pending">
+      <table :aria-busy="pending" class="table">
+        <colgroup>
+          <col style="width: 1%" />   <!-- Add -->
+          <col style="width: 1%" />   <!-- Drafted -->
+          <col style="width: 1%" />   <!-- Mug -->
+          <col />                     <!-- Player — absorbs the slack -->
+          <col v-for="c in columns.slice(1)" :key="c.key" style="width: 1%" />
+        </colgroup>
         <thead>
           <tr>
             <th scope="col"><span class="sr-only">Add to round</span></th>
@@ -153,9 +158,10 @@ function onMugError(e: Event) {
               @click="toggleSort(c.key)"
               @keydown.enter.prevent="toggleSort(c.key)"
               @keydown.space.prevent="toggleSort(c.key)"
+              :class="`table__headings ${c.key === nameKey ? 'name name--heading' : ''}`"
             >
               {{ c.label }}
-              <span v-if="sort === c.key" aria-hidden="true">
+              <span v-if="sort === c.key" aria-hidden="true" class="table__arrow">
                 {{ dir === 'DESC' ? '▾' : '▴' }}
               </span>
             </th>
@@ -211,26 +217,28 @@ function onMugError(e: Event) {
                 class="mug"
                 :src="headshotUrl(row, season)"
                 :alt="playerName(row)"
-                width="36"
-                height="36"
+                width="64"
+                height="64"
                 loading="lazy"
                 @error="onMugError"
               />
             </td>
 
             <td v-for="c in columns" :key="c.key">
-              <template v-if="c.key === nameKey">
-                <span class="name">{{ playerName(row) }}</span>
-                <span
-                  v-for="r in store.roundsFor(row.playerId)"
-                  :key="r"
-                  class="badge"
-                  :title="`Ranked in round ${r}`"
-                >R{{ r }}</span>
-              </template>
-              <template v-else>
-                {{ fmt(row, c.key) }}
-              </template>
+              <div :class="`cell-inner ${c.key === nameKey ? 'name' : ''}`"> <!-- Added wrapper -->
+                <template v-if="c.key === nameKey">
+                  <span class="name">{{ playerName(row) }}</span>
+                  <span
+                    v-for="r in store.roundsFor(row.playerId)"
+                    :key="r"
+                    class="badge"
+                    :title="`Ranked in round ${r}`"
+                  >R{{ r }}</span>
+                </template>
+                <template v-else>
+                  {{ fmt(row, c.key) }}
+                </template>
+              </div> <!-- Close wrapper -->
             </td>
           </tr>
         </tbody>
@@ -264,5 +272,40 @@ function onMugError(e: Event) {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+.table__headings {
+  position: relative;
+}
+
+.table__arrow {
+  position: absolute;
+  bottom: -60%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+td .cell-inner {
+  margin: 0 0.6rem;
+  text-align: center;
+}
+
+.name {
+  text-align: left !important;
+  display: inline-block;
+}
+
+.name--heading {
+  margin-left: 0.6rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.search {
+  flex: 1 1 auto;
 }
 </style>

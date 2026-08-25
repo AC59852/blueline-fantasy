@@ -28,8 +28,8 @@ function confirmReset() {
     </header>
 
     <main class="main">
-      <SkaterTable />
-      <RoundPanel />
+      <SkaterTable class="skaterTable"/>
+      <RoundPanel class="panel" />
     </main>
   </div>
 </template>
@@ -39,5 +39,34 @@ function confirmReset() {
   display: flex;
   max-width: 97%;
   margin: 0 auto;
+  gap: 3rem;
+}
+
+.skaterTable {
+  flex: 1 1 auto;
+  width: 80%;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.meta {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.meta span::after {
+  content: '|';
+  margin: 0 0.5rem;
 }
 </style>
