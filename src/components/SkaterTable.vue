@@ -133,19 +133,19 @@ function onMugError(e: Event) {
     </p>
 
     <template v-else>
-      <table :aria-busy="pending" class="table">
-        <colgroup>
-          <col style="width: 1%" />   <!-- Add -->
-          <col style="width: 1%" />   <!-- Drafted -->
-          <col style="width: 1%" />   <!-- Mug -->
-          <col />                     <!-- Player — absorbs the slack -->
-          <col v-for="c in columns.slice(1)" :key="c.key" style="width: 1%" />
+      <div class="table__wrapper">
+        <table :aria-busy="pending" class="table">
+          <colgroup>
+            <col style="width: 3%" />   <!-- Add -->
+            <col style="width: 1%" />   <!-- Drafted -->
+            <col />                     <!-- Player — absorbs the slack -->
+          <col v-for="c in columns.slice(1)" :key="c.key" style="width: 4%" />
         </colgroup>
         <thead>
           <tr>
             <th scope="col"><span class="sr-only">Add to round</span></th>
             <th scope="col"><span class="sr-only">Mark drafted</span></th>
-            <th scope="col"><span class="sr-only">Headshot</span></th>
+            <!-- <th scope="col"><span class="sr-only">Headshot</span></th> -->
             <th
               v-for="c in columns"
               :key="c.key"
@@ -212,7 +212,7 @@ function onMugError(e: Event) {
               </button>
             </td>
 
-            <td>
+            <!-- <td>
               <img
                 class="mug"
                 :src="headshotUrl(row, season)"
@@ -222,7 +222,7 @@ function onMugError(e: Event) {
                 loading="lazy"
                 @error="onMugError"
               />
-            </td>
+            </td> -->
 
             <td v-for="c in columns" :key="c.key">
               <div :class="`cell-inner ${c.key === nameKey ? 'name' : ''}`"> <!-- Added wrapper -->
@@ -243,6 +243,7 @@ function onMugError(e: Event) {
           </tr>
         </tbody>
       </table>
+      </div>
 
       <nav class="pager" aria-label="Player pages">
         <button type="button" :disabled="!hasPrev || pending" @click="prev">
@@ -274,6 +275,11 @@ function onMugError(e: Event) {
   border: 0;
 }
 
+.table__wrapper {
+  max-height: calc(100vh - 12rem);
+  overflow-y: scroll;
+}
+
 .table__headings {
   position: relative;
 }
@@ -303,9 +309,24 @@ td .cell-inner {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.8rem;
+  padding: 0.8rem;
+  border-top: 1px solid rgb(29, 36, 44);
+  border-bottom: 1px solid rgb(29, 36, 44);
+  border-right: 1px solid rgb(29, 36, 44);
+  box-sizing: border-box;
 }
 
 .search {
   flex: 1 1 auto;
+}
+
+td {
+  vertical-align: middle;
+}
+
+tr td {
+  /* Mimics a bottom border without disrupting the separate border model */
+  box-shadow: inset 0 -1px 0 0 #333; 
+  padding-bottom: 0.6rem;
 }
 </style>

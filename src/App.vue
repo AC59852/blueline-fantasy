@@ -29,22 +29,84 @@ function confirmReset() {
 
     <main class="main">
       <SkaterTable class="skaterTable"/>
-      <RoundPanel class="panel" />
+      <RoundPanel class="roundPanel" />
     </main>
   </div>
 </template>
 
-<style scoped>
+<style>
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0 0.6rem;
+  padding-right: 1rem;
+}
+
+.app {
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgb(11, 14, 18);
+  color: white;
+}
+
+.app-header {
+  background-color: rgb(14, 18, 24);
+}
+
 .main {
   display: flex;
-  max-width: 97%;
   margin: 0 auto;
-  gap: 3rem;
+  gap: 1rem;
+  width: 98%;
 }
 
 .skaterTable {
-  flex: 1 1 auto;
-  width: 80%;
+  flex: 1 0 auto;
+  width: 75%;
+}
+
+.roundPanel {
+  flex: 0 0 25%;
+  max-width: 25%;
 }
 
 .app-header {
@@ -52,6 +114,7 @@ function confirmReset() {
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
+  padding: 2rem 1rem;
 }
 
 .title {
@@ -69,4 +132,5 @@ function confirmReset() {
   content: '|';
   margin: 0 0.5rem;
 }
+
 </style>

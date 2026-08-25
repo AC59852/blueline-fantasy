@@ -21,10 +21,15 @@ const emptyCount = computed(() => store.slotsPerRound - store.currentEntries.len
         v-for="r in store.roundNumbers"
         :key="r"
         type="button"
-        :class="{ active: store.selectedRound === r }"
+        :class="['panel__tab', { 'active': store.selectedRound === r }]"
         @click="store.selectedRound = r"
       >
         <span class="num">{{ r }}</span>
+        <progress
+          class="progress"
+          :value="store.countFor(r)"
+          :max="store.slotsPerRound"
+        ></progress>
         <span class="count">{{ store.countFor(r) }}/{{ store.slotsPerRound }}</span>
       </button>
     </nav>
@@ -82,3 +87,52 @@ const emptyCount = computed(() => store.slotsPerRound - store.currentEntries.len
     </div>
   </aside>
 </template>
+
+<style scoped>
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.5rem;
+}
+
+.panel__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem 0.5rem;
+  background-color: rgb(18, 24, 32);
+  border: 1px solid rgb(29, 36, 44);
+  cursor: pointer;
+  border-radius: 0.3rem;
+}
+
+.progress {
+  width: 100%;
+  height: 0.4rem;
+  margin: 0.2rem 0;
+  border-radius: 0.2rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background: linear-gradient(90deg, rgb(42, 52, 63) 0%, rgb(34, 42, 51) 0px);
+}
+
+progress::-webkit-progress-bar {
+  background-color: #e0e0e0; /* Track background color */
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #4caf50; /* Filled bar color */
+  border-radius: 10px;
+}
+
+/* 2. Mozilla (Firefox) */
+progress::-moz-progress-bar {
+  background-color: #4caf50; /* Filled bar color */
+  border-radius: 10px;
+}
+
+</style>
