@@ -286,4 +286,20 @@ progress::-moz-progress-bar {
   color: rgb(242, 169, 59);
 }
 
+.remove {
+  border: 1px solid rgb(36, 46, 56);
+  border-radius: 0.2rem;
+  background-color: transparent;
+  padding: 0.4rem 0.6rem;
+  color: rgb(110, 124, 140);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.remove:hover {
+  background-color: rgba(154, 230, 180, 0.1);
+  border-color: rgb(98, 255, 84);
+  color: rgb(98, 255, 84);
+}
+
 </style>

@@ -203,7 +203,7 @@ function onMugError(e: Event) {
             <td>
               <button
                 type="button"
-                class="mark"
+                :class="`mark ${store.isDrafted(row.playerId) ? 'active' : ''}`"
                 :aria-pressed="store.isDrafted(row.playerId)"
                 :aria-label="`Mark ${playerName(row)} as drafted`"
                 @click="store.toggleDrafted(row.playerId)"
@@ -228,12 +228,14 @@ function onMugError(e: Event) {
               <div :class="`cell-inner ${c.key === nameKey ? 'name' : ''}`"> <!-- Added wrapper -->
                 <template v-if="c.key === nameKey">
                   <span class="name">{{ playerName(row) }}</span>
-                  <span
-                    v-for="r in store.roundsFor(row.playerId)"
-                    :key="r"
-                    class="badge"
-                    :title="`Ranked in round ${r}`"
-                  >R{{ r }}</span>
+                  <div class="badges">
+                    <span
+                      v-for="r in store.roundsFor(row.playerId)"
+                      :key="r"
+                      class="badge"
+                      :title="`Ranked in round ${r}`"
+                    >R{{ r }}</span>
+                  </div>
                 </template>
                 <template v-else>
                   {{ fmt(row, c.key) }}
@@ -314,10 +316,37 @@ td .cell-inner {
   border-bottom: 1px solid rgb(29, 36, 44);
   border-right: 1px solid rgb(29, 36, 44);
   box-sizing: border-box;
+  align-items: center;
 }
 
 .search {
-  flex: 1 1 auto;
+  flex: 1 1 0%;
+  border: 1px solid rgb(36, 46, 56);
+  border-radius: 0.2rem;
+  background-color: rgb(21, 27, 34);
+  padding: 0.4rem 0.6rem;
+  color: rgb(230, 237, 243);
+}
+
+.filters {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.filter, .hide-drafted {
+  border: 1px solid rgb(36, 46, 56);
+  border-radius: 0.2rem;
+  background-color: transparent;
+  padding: 0.4rem 0.6rem;
+  color: rgb(110, 124, 140);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter.active, .hide-drafted.active {
+  background-color: rgb(27, 36, 46);
+  color: rgb(230, 237, 243);
+  border: 1px solid rgb(62, 76, 90);
 }
 
 td {
@@ -328,5 +357,60 @@ tr td {
   /* Mimics a bottom border without disrupting the separate border model */
   box-shadow: inset 0 -1px 0 0 #333; 
   padding-bottom: 0.6rem;
+}
+
+.add {
+  background-color: rgba(144, 224, 137, 0.1);
+  border: solid 1px rgb(144, 224, 137);
+  color: rgb(144, 224, 137);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.1rem;
+  cursor: pointer;
+}
+
+/* add disabled */
+.add:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+tbody tr td:nth-child(1) {
+  padding-right: 0.6rem;
+}
+
+.mark {
+  background-color: transparent;
+  border: none;
+  color: rgb(110, 124, 140);
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: -0.2rem;
+}
+
+.mark.active {
+  color: rgb(144, 224, 137);
+}
+
+.cell-inner.name {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.badges {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.badge {
+  font-size: 0.7rem;
+  background-color: rgba(127, 209, 232, 0.2);
+  border: solid 1px rgb(127, 209, 232);
+  color: rgb(230, 237, 243);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.2rem;
 }
 </style>
