@@ -53,20 +53,25 @@ const emptyCount = computed(() => store.slotsPerRound - store.currentEntries.len
       >
         <li v-for="(p, i) in entries" :key="p.playerId" class="slot filled">
           <div class="body">
-            <div class="line">
-              <strong :title="`Drag to reorder ${p.name}`" class="handle">{{ p.name }}</strong>
-              <span class="pos handle" :title="`Drag to reorder ${p.name}`">{{ p.position }}</span>
-              <span class="team handle" :title="`Drag to reorder ${p.name}`">{{ p.team }}</span>
-              <span v-if="p.points != null" class="stat handle" :title="`Drag to reorder ${p.name}`">
-                {{ p.points }} PTS · {{ p.goals }}G {{ p.assists }}A
-              </span>
+            <span class="rank">{{ i + 1 }}</span>
+            <div class="round__wrapper">
+              <div class="line">
+                <div class="info">
+                  <strong :title="`Drag to reorder ${p.name}`" class="handle">{{ p.name }}</strong>
+                  <span :class="[`pos-${p.position.toLowerCase()} handle`]" :title="`Drag to reorder ${p.name}`">{{ p.position == 'L' || p.position == 'R' ? p.position + 'W' : p.position }}</span>
+                  <span class="team handle" :title="`Drag to reorder ${p.name}`">{{ p.team }}</span>
+                  <span v-if="p.points != null" class="stat handle" :title="`Drag to reorder ${p.name}`">
+                    {{ p.points }} PTS · {{ p.goals }}G {{ p.assists }}A
+                  </span>
+                </div>
+              </div>
+              <input
+                class="note"
+                :value="p.note ?? ''"
+                placeholder="Add a note"
+                @input="store.setNote(store.selectedRound, p.playerId, ($event.target as HTMLInputElement).value)"
+              />
             </div>
-            <input
-              class="note"
-              :value="p.note ?? ''"
-              placeholder="Add a note"
-              @input="store.setNote(store.selectedRound, p.playerId, ($event.target as HTMLInputElement).value)"
-            />
           </div>
 
           <button
@@ -105,6 +110,14 @@ const emptyCount = computed(() => store.slotsPerRound - store.currentEntries.len
   border: 1px solid rgb(29, 36, 44);
   cursor: pointer;
   border-radius: 0.3rem;
+  transition: all 0.2s ease-in-out;
+  color: rgb(124, 137, 152);
+}
+
+.panel__tab.active {
+  color: rgb(230, 237, 243);
+  background-color: rgba(154, 230, 180, 0.1);
+  border-color: rgb(98, 255, 84);
 }
 
 .progress {
@@ -133,6 +146,144 @@ progress::-webkit-progress-value {
 progress::-moz-progress-bar {
   background-color: #4caf50; /* Filled bar color */
   border-radius: 10px;
+}
+
+.head {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgb(29, 36, 44);
+  align-items: baseline;
+}
+
+.head h2 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.head span {
+  font-size: 0.8rem;
+  color: rgb(138, 151, 166);
+}
+
+.hint {
+  margin-left: auto;
+}
+
+.slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 20rem);
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem;
+  background-color: rgb(20, 26, 34);
+  border: 1px solid rgb(32, 41, 50);
+  border-radius: 0.3rem;
+  box-sizing: border-box;
+}
+
+.body {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.round__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filled-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.empty-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start !important;
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.note {
+  background-color: transparent;
+  color: rgb(138, 151, 166);
+  border: none;
+  border-bottom: dashed 1px rgb(36, 46, 56);
+  margin-top: 0.4rem;
+}
+
+.note::placeholder {
+  color: rgb(138, 151, 166);
+}
+
+.empty {
+  display: flex;
+  gap: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slot.empty {
+  justify-content: flex-start;
+}
+
+.info strong {
+  font-weight: 600;
+  color: rgb(230, 237, 243);
+}
+
+.info .handle {
+  font-size: 0.9rem;
+  cursor: grab;
+}
+
+.info .handle:nth-child(3), .info .handle:nth-child(4) {
+  color: rgb(138, 151, 166);
+  font-size: 0.8rem;
+  align-self: center;
+}
+
+.info .handle:nth-child(4) {
+  color: rgb(95, 108, 123);
+}
+
+.pos-c {
+  color: rgb(127, 209, 232); 
+}
+
+.pos-l, .pos-r {
+  color: rgb(154, 230, 180); 
+}
+
+.pos-d {
+  color: rgb(196, 166, 240);
+}
+
+.pos-g {
+  color: rgb(242, 169, 59);
 }
 
 </style>
