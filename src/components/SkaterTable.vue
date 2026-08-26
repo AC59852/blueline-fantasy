@@ -278,8 +278,11 @@ function onMugError(e: Event) {
 }
 
 .table__wrapper {
-  max-height: calc(100vh - 12rem);
+  max-height: calc(100vh - 18rem);
   overflow-y: scroll;
+  margin-bottom: 2rem;
+  padding: 0 0.6rem;
+  box-sizing: border-box;
 }
 
 .table__headings {
@@ -288,7 +291,7 @@ function onMugError(e: Event) {
 
 .table__arrow {
   position: absolute;
-  bottom: -60%;
+  bottom: -105%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -314,9 +317,9 @@ td .cell-inner {
   padding: 0.8rem;
   border-top: 1px solid rgb(29, 36, 44);
   border-bottom: 1px solid rgb(29, 36, 44);
-  border-right: 1px solid rgb(29, 36, 44);
   box-sizing: border-box;
   align-items: center;
+  background-color: rgb(14, 18, 24);
 }
 
 .search {
@@ -333,7 +336,7 @@ td .cell-inner {
   gap: 0.15rem;
 }
 
-.filter, .hide-drafted {
+.filter, .hide-drafted, .pager button {
   border: 1px solid rgb(36, 46, 56);
   border-radius: 0.2rem;
   background-color: transparent;
@@ -343,10 +346,22 @@ td .cell-inner {
   transition: all 0.2s ease-in-out;
 }
 
-.filter.active, .hide-drafted.active {
+.filter.active, .hide-drafted.active, .pager button:enabled:hover {
   background-color: rgb(27, 36, 46);
   color: rgb(230, 237, 243);
   border: 1px solid rgb(62, 76, 90);
+}
+
+.pager button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 td {
@@ -356,7 +371,7 @@ td {
 tr td {
   /* Mimics a bottom border without disrupting the separate border model */
   box-shadow: inset 0 -1px 0 0 #333; 
-  padding-bottom: 0.6rem;
+  padding-bottom: 0.8rem;
 }
 
 .add {

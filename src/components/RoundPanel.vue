@@ -94,11 +94,21 @@ const emptyCount = computed(() => store.slotsPerRound - store.currentEntries.len
 </template>
 
 <style scoped>
+.panel {
+  border-left: 1px solid rgb(29, 36, 44);
+  box-sizing: border-box;
+}
+
 .tabs {
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
   padding: 0.5rem;
+  background-color: rgb(14, 18, 24);
+  border-top: 1px solid rgb(29, 36, 44);
+  border-bottom: 1px solid rgb(29, 36, 44);
+  box-sizing:border-box;
+  width: 100%;
 }
 
 .panel__tab {
@@ -151,8 +161,7 @@ progress::-moz-progress-bar {
 .head {
   display: flex;
   gap: 0.6rem;
-  padding: 0.5rem;
-  border-bottom: 1px solid rgb(29, 36, 44);
+  padding: 1rem 0.5rem 0.8rem;
   align-items: baseline;
 }
 
@@ -177,7 +186,7 @@ progress::-moz-progress-bar {
   gap: 0.5rem;
   padding: 0.5rem;
   overflow-y: auto;
-  max-height: calc(100vh - 20rem);
+  max-height: calc(100vh - 18rem);
 }
 
 .slot {

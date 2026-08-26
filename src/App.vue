@@ -62,6 +62,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+  background-color: rgb(11, 14, 18);
+  font-family: "IBM Plex Sans";
 }
 ol, ul {
 	list-style: none;
@@ -77,26 +79,20 @@ q:before, q:after {
 
 table {
 	border-collapse: separate;
-	border-spacing: 0 0.6rem;
+	border-spacing: 0 0.8rem;
   padding-right: 1rem;
 }
 
-.app {
-  height: 100vh;
-  overflow: hidden;
-  background-color: rgb(11, 14, 18);
-  color: white;
+tbody tr:first-child td {
+  border-top: 20px solid transparent;
 }
 
-.app-header {
-  background-color: rgb(14, 18, 24);
+.app {
+  color: white;
 }
 
 .main {
   display: flex;
-  margin: 0 auto;
-  gap: 1rem;
-  width: 98%;
 }
 
 .skaterTable {
@@ -114,23 +110,63 @@ table {
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
+  background-color: rgb(14, 18, 24);
 }
 
 .title {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.8rem;
+}
+
+.title h1 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgb(230, 237, 243);
+}
+
+.sub {
+  font-size: 0.8rem;
+  color: rgb(110, 124, 140);
+  text-transform: uppercase;
 }
 
 .meta {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.9rem;
 }
 
-.meta span::after {
+.meta span:nth-child(1)::after {
   content: '|';
   margin: 0 0.5rem;
+}
+
+.meta button {
+  border: 1px solid rgb(36, 46, 56);
+  border-radius: 0.2rem;
+  background-color: transparent;
+  padding: 0.4rem 0.6rem;
+  color: rgb(110, 124, 140);
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.meta button:hover {
+  background-color: rgb(27, 36, 46);
+  color: rgb(230, 237, 243);
+  border: 1px solid rgb(62, 76, 90);
+}
+
+.meta span {
+  color: rgb(138, 151, 166);
+}
+
+.meta strong {
+  color: rgb(230, 237, 243);
 }
 
 </style>
